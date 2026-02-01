@@ -13,7 +13,7 @@ build:
 		$(CMAKE_FLAGS) \
 		.
 	@cmake --build $(BUILD_DIR)
-	@echo "Static library built: $(BUILD_DIR)/libaramlib.a"
+	@echo "Static library built: $(BUILD_DIR)/libhandrolled.a"
 
 # shared library
 shared:
@@ -24,7 +24,7 @@ shared:
 		$(CMAKE_FLAGS) \
 		.
 	@cmake --build $(BUILD_DIR)
-	@echo "Shared library built: $(BUILD_DIR)/libaramlib.so"
+	@echo "Shared library built: $(BUILD_DIR)/libhandrolled.so"
 
 # build example executables with static library
 examples:

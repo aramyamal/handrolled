@@ -1,7 +1,7 @@
-#ifndef ARAMLIB_VECTOR_H
-#define ARAMLIB_VECTOR_H
+#ifndef HANDROLLED_VECTOR_H
+#define HANDROLLED_VECTOR_H
 
-#include "aramlib/array.h"
+#include "handrolled/array.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -74,4 +74,4 @@ VoidVector VoidVector_copy(const VoidVector *self);
         return (name){._internal = VoidVector_copy(&self->_internal)};         \
     }
 
-#endif // ARAMLIB_VECTOR_H
+#endif // HANDROLLED_VECTOR_H

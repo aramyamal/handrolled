@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15...4.0)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-project(aramlib
+project(handrolled
     VERSION 0.0.1
     DESCRIPTION "Handrolled, type-safe and bounds-checked data structure implementations for C."
     LANGUAGES C
@@ -30,28 +30,28 @@ function(add_compiler_warnings_private target_name)
     )
 endfunction()
 
-add_library(aramlib 
+add_library(handrolled 
     src/array.c
     src/vector.c
     src/hashmap.c
 )
 
-add_library(aramlib::aramlib ALIAS aramlib)
+add_library(handrolled::handrolled ALIAS handrolled)
 
-target_include_directories(aramlib PUBLIC
+target_include_directories(handrolled PUBLIC
     $<INSTALL_INTERFACE:include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-# add compiler warnings to private aramlib
-add_compiler_warnings_private(aramlib)
+# add compiler warnings to private handrolled
+add_compiler_warnings_private(handrolled)
 
 if(BUILD_TESTS AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tests)
     enable_testing()
 
     function(add_test_executable target_name source_file)
         add_executable(${target_name} ${source_file})
-        target_link_libraries(${target_name} PRIVATE aramlib::aramlib)
+        target_link_libraries(${target_name} PRIVATE handrolled::handrolled)
         add_compiler_warnings_private(${target_name})
         
         add_test(NAME ${target_name} COMMAND ${target_name})
@@ -77,7 +77,7 @@ endif()
 if(BUILD_EXAMPLES)
     function(add_example_executable target_name source_file)
         add_executable(${target_name} ${source_file})
-        target_link_libraries(${target_name} PRIVATE aramlib::aramlib)
+        target_link_libraries(${target_name} PRIVATE handrolled::handrolled)
         add_compiler_warnings_private(${target_name})
     endfunction()
 

@@ -1,4 +1,4 @@
-#include "aramlib/array.h"
+#include "handrolled/array.h"
 #include <stdio.h>
 
 DEFINE_ARRAY(Int32Array, int32_t)

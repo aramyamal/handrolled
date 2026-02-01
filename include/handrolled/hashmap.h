@@ -1,7 +1,7 @@
-#ifndef ARAMLIB_HASHMAP_H
-#define ARAMLIB_HASHMAP_H
+#ifndef HANDROLLED_HASHMAP_H
+#define HANDROLLED_HASHMAP_H
 
-#include "aramlib/array.h"
+#include "handrolled/array.h"
 #include <stdbool.h>
 #include <stddef.h>
 
@@ -67,4 +67,4 @@ VoidHashMap VoidHashMap_copy(const VoidHashMap *self);
         return (name){._internal = VoidHashMap_copy(&self->_internal)};        \
     }
 
-#endif // ARAMLIB_HASHMAP_H
+#endif // HANDROLLED_HASHMAP_H

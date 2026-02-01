@@ -1,5 +1,5 @@
-#ifndef ARAMLIB_ARRAY_H
-#define ARAMLIB_ARRAY_H
+#ifndef HANDROLLED_ARRAY_H
+#define HANDROLLED_ARRAY_H
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -65,4 +65,4 @@ bool VoidArray_resize(VoidArray *self, size_t new_length);
         return VoidArray_resize(&self->_internal, new_length);                 \
     }
 
-#endif // ARAMLIB_ARRAY_H
+#endif // HANDROLLED_ARRAY_H

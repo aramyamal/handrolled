@@ -1,4 +1,4 @@
-#include "aramlib/array.h"
+#include "handrolled/array.h"
 #include <assert.h>
 
 DEFINE_ARRAY(IntArray, int)

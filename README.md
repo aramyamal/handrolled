@@ -1,4 +1,4 @@
-# aramlib
+# handrolled
 
 Handrolled, type-safe and bounds-checked data structure implementations for C.
 
@@ -7,7 +7,7 @@ Handrolled, type-safe and bounds-checked data structure implementations for C.
 ### Array
 Fixed-size array with type safety:
 ```c
-#include "aramlib/array.h"
+#include "handrolled/array.h"
 #include <stdio.h>
 
 DEFINE_ARRAY(Int32Array, int32_t)
@@ -34,7 +34,7 @@ int main(void) {
 ### Vector
 Dynamic array with automatic resizing:
 ```c
-#include "aramlib/vector.h"
+#include "handrolled/vector.h"
 #include <stdio.h>
 
 DEFINE_VECTOR(StringVector, char *)
@@ -61,9 +61,9 @@ int main(void) {
 ```
 
 ## API Reference
-See the header files in `include/aramlib/` for complete API documentation:
-- `include/aramlib/array.h` - Fixed-size arrays
-- `include/aramlib/vector.h` - Dynamic arrays
+See the header files in `include/handrolled/` for complete API documentation:
+- `include/handrolled/array.h` - Fixed-size arrays
+- `include/handrolled/vector.h` - Dynamic arrays
 
 ## Status
-**Work in Progress**: This is a hobby project for getting better understanding of data structues and C. More will be added as I explore. Check `include/aramlib/` for the actual API since this README might not be up-to-date.
+**Work in Progress**: This is a hobby project for getting better understanding of data structues and C. More will be added as I explore. Check `include/handrolled/` for the actual API since this README might not be up-to-date.

@@ -1,5 +1,5 @@
-#include "aramlib/hashmap.h"
-#include "aramlib/array.h"
+#include "handrolled/hashmap.h"
+#include "handrolled/array.h"
 
 VoidHashMap VoidHashMap_create(size_t capacity, size_t element_size) {
     // TODO

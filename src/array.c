@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "aramlib/array.h"
+#include "handrolled/array.h"
 
 static inline VoidArray VoidArray_null(void) {
     return (VoidArray){.data = NULL, .length = 0, .element_size = 0};

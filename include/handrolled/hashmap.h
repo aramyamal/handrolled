@@ -47,19 +47,23 @@ VoidHashMap VoidHashMap_copy(const VoidHashMap *self);
         return VoidHashMap_capacity(&self->_internal);                         \
     }                                                                          \
                                                                                \
-    static inline bool name##_contains_key(const name *self, const char *key) {\
+    static inline bool name##_contains_key(const name *self,                   \
+                                           const char *key) {                  \
         return VoidHashMap_contains_key(&self->_internal, key);                \
     }                                                                          \
                                                                                \
-    static inline bool name##_get(const name *self, const char *key, T *out_value) { \
+    static inline bool name##_get(const name *self, const char *key,           \
+                                  T *out_value) {                              \
         return VoidHashMap_get(&self->_internal, key, out_value);              \
     }                                                                          \
                                                                                \
-    static inline bool name##_put(name *self, const char *key, const T value) { \
+    static inline bool name##_put(name *self, const char *key,                 \
+                                  const T value) {                             \
         return VoidHashMap_put(&self->_internal, key, &value);                 \
     }                                                                          \
                                                                                \
-    static inline bool name##_remove(name *self, const char *key, T *out_value) { \
+    static inline bool name##_remove(name *self, const char *key,              \
+                                     T *out_value) {                           \
         return VoidHashMap_remove(&self->_internal, key, out_value);           \
     }                                                                          \
                                                                                \

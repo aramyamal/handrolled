@@ -60,6 +60,7 @@ if(BUILD_TESTS AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tests)
     set(TESTS
         "tests/test_array.c"
         "tests/test_vector.c"
+        "tests/test_hashmap.c"
     )
     
     foreach(test_source ${TESTS})

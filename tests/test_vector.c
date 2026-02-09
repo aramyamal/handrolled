@@ -64,6 +64,8 @@ static void test_get_set_elements(void) {
     assert(IntVector_set(&vec, 40, 3) == false);
 
     IntVector_destroy(&vec);
+
+    (void)value;
 }
 
 static void test_pop_elements(void) {
@@ -91,6 +93,8 @@ static void test_pop_elements(void) {
     assert(IntVector_pop(&vec, &value) == false);
 
     IntVector_destroy(&vec);
+
+    (void)value;
 }
 
 static void test_clear_vector(void) {
@@ -117,6 +121,9 @@ static void test_clear_vector(void) {
     assert(value == 40);
 
     IntVector_destroy(&vec);
+
+    (void)capacity;
+    (void)value;
 }
 
 static void test_copy_vector(void) {
@@ -142,6 +149,8 @@ static void test_copy_vector(void) {
 
     IntVector_destroy(&vec);
     IntVector_destroy(&copied);
+
+    (void)value;
 }
 
 int main(void) {

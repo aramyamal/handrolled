@@ -43,6 +43,8 @@ static void test_get_set_elements(void) {
     assert(IntArray_set(&arr, 999, 5) == false);
 
     IntArray_destroy(&arr);
+
+    (void)value;
 }
 
 static void test_copy_array(void) {
@@ -68,6 +70,8 @@ static void test_copy_array(void) {
 
     IntArray_destroy(&arr);
     IntArray_destroy(&copy);
+
+    (void)value;
 }
 
 static void test_resize_array(void) {
@@ -95,6 +99,8 @@ static void test_resize_array(void) {
     assert(value == 0);
 
     IntArray_destroy(&arr);
+
+    (void)value;
 }
 
 int main(void) {

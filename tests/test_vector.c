@@ -1,165 +1,153 @@
 #include "handrolled/vector.h"
-#include <assert.h>
-#include <stdio.h>
+#include "unity.h"
 
 DEFINE_VECTOR(IntVector, int)
 
-static void test_create_destroy(void) {
-    printf("Test: Create and destroy\n");
+void test_create_destroy(void);
+void test_push_elements(void);
+void test_get_set_elements(void);
+void test_pop_elements(void);
+void test_clear_vector(void);
+void test_copy_vector(void);
 
+void setUp(void) {}
+void tearDown(void) {}
+
+void test_create_destroy(void) {
     IntVector vec = IntVector_create(0);
-    assert(IntVector_length(&vec) == 0);
-    assert(IntVector_capacity(&vec) == 0);
+    TEST_ASSERT_EQUAL_size_t(0, IntVector_length(&vec));
+    TEST_ASSERT_EQUAL_size_t(0, IntVector_capacity(&vec));
     IntVector_destroy(&vec);
-    assert(vec._internal.array.data == NULL);
-    assert(vec._internal.length == 0);
-    assert(vec._internal.array.length == 0);
+    TEST_ASSERT_NULL(vec._internal.array.data);
+    TEST_ASSERT_EQUAL_size_t(0, vec._internal.length);
+    TEST_ASSERT_EQUAL_size_t(0, vec._internal.array.length);
 
     // test with initial capacity
     vec = IntVector_create(5);
-    assert(IntVector_length(&vec) == 0);
-    assert(IntVector_capacity(&vec) >= 5);
+    TEST_ASSERT_EQUAL_size_t(0, IntVector_length(&vec));
+    TEST_ASSERT_TRUE(IntVector_capacity(&vec) >= 5);
     IntVector_destroy(&vec);
-    assert(vec._internal.array.data == NULL);
-    assert(vec._internal.length == 0);
-    assert(vec._internal.array.length == 0);
+    TEST_ASSERT_NULL(vec._internal.array.data);
+    TEST_ASSERT_EQUAL_size_t(0, vec._internal.length);
+    TEST_ASSERT_EQUAL_size_t(0, vec._internal.array.length);
 }
 
-static void test_push_elements(void) {
-    printf("Test: Push elements\n");
-
+void test_push_elements(void) {
     IntVector vec = IntVector_create(2);
-    assert(IntVector_push(&vec, 10) == true);
-    assert(IntVector_push(&vec, 20) == true);
-    assert(IntVector_push(&vec, 30) == true);
-    assert(IntVector_length(&vec) == 3);
-    assert(IntVector_capacity(&vec) >= 3);
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 10));
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 20));
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 30));
+    TEST_ASSERT_EQUAL_size_t(3, IntVector_length(&vec));
+    TEST_ASSERT_TRUE(IntVector_capacity(&vec) >= 3);
     IntVector_destroy(&vec);
 }
 
-static void test_get_set_elements(void) {
-    printf("Test: Get and set elements\n");
-
+void test_get_set_elements(void) {
     IntVector vec = IntVector_create(5);
-    IntVector_push(&vec, 10);
-    IntVector_push(&vec, 20);
-    IntVector_push(&vec, 30);
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 10));
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 20));
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 30));
 
     int value = 0;
     // get
-    assert(IntVector_get(&vec, &value, 0) == true);
-    assert(value == 10);
-    assert(IntVector_get(&vec, &value, 1) == true);
-    assert(value == 20);
-    assert(IntVector_get(&vec, &value, 2) == true);
-    assert(value == 30);
+    TEST_ASSERT_TRUE(IntVector_get(&vec, &value, 0));
+    TEST_ASSERT_EQUAL_INT(10, value);
+    TEST_ASSERT_TRUE(IntVector_get(&vec, &value, 1));
+    TEST_ASSERT_EQUAL_INT(20, value);
+    TEST_ASSERT_TRUE(IntVector_get(&vec, &value, 2));
+    TEST_ASSERT_EQUAL_INT(30, value);
 
     // set
-    assert(IntVector_set(&vec, 25, 1) == true);
-    assert(IntVector_get(&vec, &value, 1) == true);
-    assert(value == 25);
+    TEST_ASSERT_TRUE(IntVector_set(&vec, 25, 1));
+    TEST_ASSERT_TRUE(IntVector_get(&vec, &value, 1));
+    TEST_ASSERT_EQUAL_INT(25, value);
 
     // out of bounds
-    assert(IntVector_get(&vec, &value, 3) == false);
-    assert(IntVector_set(&vec, 40, 3) == false);
+    TEST_ASSERT_FALSE(IntVector_get(&vec, &value, 3));
+    TEST_ASSERT_FALSE(IntVector_set(&vec, 40, 3));
 
     IntVector_destroy(&vec);
-
-    (void)value;
 }
 
-static void test_pop_elements(void) {
-    printf("Test: Pop elements\n");
-
+void test_pop_elements(void) {
     IntVector vec = IntVector_create(5);
-    IntVector_push(&vec, 10);
-    IntVector_push(&vec, 20);
-    IntVector_push(&vec, 30);
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 10));
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 20));
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 30));
 
     int value = 0;
-    assert(IntVector_pop(&vec, &value) == true);
-    assert(value == 30);
-    assert(IntVector_length(&vec) == 2);
+    TEST_ASSERT_TRUE(IntVector_pop(&vec, &value));
+    TEST_ASSERT_EQUAL_INT(30, value);
+    TEST_ASSERT_EQUAL_size_t(2, IntVector_length(&vec));
 
-    assert(IntVector_pop(&vec, &value) == true);
-    assert(value == 20);
-    assert(IntVector_length(&vec) == 1);
+    TEST_ASSERT_TRUE(IntVector_pop(&vec, &value));
+    TEST_ASSERT_EQUAL_INT(20, value);
+    TEST_ASSERT_EQUAL_size_t(1, IntVector_length(&vec));
 
-    assert(IntVector_pop(&vec, &value) == true);
-    assert(value == 10);
-    assert(IntVector_length(&vec) == 0);
+    TEST_ASSERT_TRUE(IntVector_pop(&vec, &value));
+    TEST_ASSERT_EQUAL_INT(10, value);
+    TEST_ASSERT_EQUAL_size_t(0, IntVector_length(&vec));
 
     // pop from empty vector
-    assert(IntVector_pop(&vec, &value) == false);
+    TEST_ASSERT_FALSE(IntVector_pop(&vec, &value));
 
     IntVector_destroy(&vec);
-
-    (void)value;
 }
 
-static void test_clear_vector(void) {
-    printf("Test: Clear vector\n");
-
+void test_clear_vector(void) {
     IntVector vec = IntVector_create(2);
-    IntVector_push(&vec, 10);
-    IntVector_push(&vec, 20);
-    IntVector_push(&vec, 30);
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 10));
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 20));
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 30));
 
-    assert(IntVector_length(&vec) == 3);
+    TEST_ASSERT_EQUAL_size_t(3, IntVector_length(&vec));
     size_t capacity = IntVector_capacity(&vec);
     IntVector_clear(&vec);
-    assert(IntVector_length(&vec) == 0);
+    TEST_ASSERT_EQUAL_size_t(0, IntVector_length(&vec));
 
     // capacity should remain
-    assert(IntVector_capacity(&vec) == capacity);
+    TEST_ASSERT_EQUAL_size_t(capacity, IntVector_capacity(&vec));
 
     // verify we can still add elements after clear
-    assert(IntVector_push(&vec, 40) == true);
-    assert(IntVector_length(&vec) == 1);
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 40));
+    TEST_ASSERT_EQUAL_size_t(1, IntVector_length(&vec));
     int value = 0;
-    assert(IntVector_get(&vec, &value, 0) == true);
-    assert(value == 40);
+    TEST_ASSERT_TRUE(IntVector_get(&vec, &value, 0));
+    TEST_ASSERT_EQUAL_INT(40, value);
 
     IntVector_destroy(&vec);
-
-    (void)capacity;
-    (void)value;
 }
 
-static void test_copy_vector(void) {
-    printf("Test: Copy vector\n");
-
+void test_copy_vector(void) {
     IntVector vec = IntVector_create(5);
-    IntVector_push(&vec, 100);
-    IntVector_push(&vec, 200);
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 100));
+    TEST_ASSERT_TRUE(IntVector_push(&vec, 200));
 
     IntVector copied = IntVector_copy(&vec);
-    assert(IntVector_length(&copied) == 2);
+    TEST_ASSERT_EQUAL_size_t(2, IntVector_length(&copied));
 
     int value = 0;
-    assert(IntVector_get(&copied, &value, 0) == true);
-    assert(value == 100);
-    assert(IntVector_get(&copied, &value, 1) == true);
-    assert(value == 200);
+    TEST_ASSERT_TRUE(IntVector_get(&copied, &value, 0));
+    TEST_ASSERT_EQUAL_INT(100, value);
+    TEST_ASSERT_TRUE(IntVector_get(&copied, &value, 1));
+    TEST_ASSERT_EQUAL_INT(200, value);
 
     // modify original, copy should not be affected
-    IntVector_set(&vec, 300, 0);
-    assert(IntVector_get(&copied, &value, 0) == true);
-    assert(value == 100); // copy unchanged
+    TEST_ASSERT_TRUE(IntVector_set(&vec, 300, 0));
+    TEST_ASSERT_TRUE(IntVector_get(&copied, &value, 0));
+    TEST_ASSERT_EQUAL_INT(100, value); // copy unchanged
 
     IntVector_destroy(&vec);
     IntVector_destroy(&copied);
-
-    (void)value;
 }
 
 int main(void) {
-    test_create_destroy();
-    test_push_elements();
-    test_get_set_elements();
-    test_pop_elements();
-    test_clear_vector();
-    test_copy_vector();
-
-    return 0;
+    UNITY_BEGIN();
+    RUN_TEST(test_create_destroy);
+    RUN_TEST(test_push_elements);
+    RUN_TEST(test_get_set_elements);
+    RUN_TEST(test_pop_elements);
+    RUN_TEST(test_clear_vector);
+    RUN_TEST(test_copy_vector);
+    return UNITY_END();
 }

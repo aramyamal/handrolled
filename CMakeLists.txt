@@ -49,9 +49,20 @@ add_compiler_warnings_private(handrolled)
 if(BUILD_TESTS AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tests)
     enable_testing()
 
+    include(FetchContent)
+    FetchContent_Declare(
+        unity
+        GIT_REPOSITORY https://github.com/ThrowTheSwitch/Unity
+        GIT_TAG v2.6.1
+    )
+    FetchContent_MakeAvailable(unity)
+
     function(add_test_executable target_name source_file)
         add_executable(${target_name} ${source_file})
-        target_link_libraries(${target_name} PRIVATE handrolled::handrolled)
+        target_link_libraries(${target_name} PRIVATE
+            handrolled::handrolled
+            unity::framework
+        )
         add_compiler_warnings_private(${target_name})
         
         add_test(NAME ${target_name} COMMAND ${target_name})

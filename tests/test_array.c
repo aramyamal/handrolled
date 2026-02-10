@@ -1,112 +1,108 @@
 #include "handrolled/array.h"
+#include "unity.h"
 #include <assert.h>
-#include <stdio.h>
 
 DEFINE_ARRAY(IntArray, int)
 
-static void test_create_destroy(void) {
-    printf("Test: Create and destroy\n");
+void test_create_destroy(void);
+void test_get_set_elements(void);
+void test_copy_array(void);
+void test_resize_array(void);
 
+void setUp(void) {}
+void tearDown(void) {}
+
+void test_create_destroy(void) {
     IntArray arr = IntArray_create(0);
-    assert(IntArray_length(&arr) == 0);
+    TEST_ASSERT_EQUAL_size_t(0, IntArray_length(&arr));
     IntArray_destroy(&arr);
-    assert(arr._internal.data == NULL);
-    assert(arr._internal.length == 0);
+    TEST_ASSERT_NULL(arr._internal.data);
+    TEST_ASSERT_EQUAL_size_t(0, arr._internal.length);
 
     // test with initial length
     arr = IntArray_create(5);
-    assert(IntArray_length(&arr) == 5);
+    TEST_ASSERT_EQUAL_size_t(5, IntArray_length(&arr));
     IntArray_destroy(&arr);
-    assert(arr._internal.data == NULL);
-    assert(arr._internal.length == 0);
+    TEST_ASSERT_NULL(arr._internal.data);
+    TEST_ASSERT_EQUAL_size_t(0, arr._internal.length);
 }
 
-static void test_get_set_elements(void) {
-    printf("Test: Get and set elements\n");
-
+void test_get_set_elements(void) {
     IntArray arr = IntArray_create(5);
-    assert(IntArray_length(&arr) == 5);
+    TEST_ASSERT_EQUAL_size_t(5, IntArray_length(&arr));
 
     // set
-    assert(IntArray_set(&arr, 42, 0) == true);
-    assert(IntArray_set(&arr, 100, 4) == true);
+    TEST_ASSERT_TRUE(IntArray_set(&arr, 42, 0));
+    TEST_ASSERT_TRUE(IntArray_set(&arr, 100, 4));
 
     // get
     int value = 0;
-    assert(IntArray_get(&arr, &value, 0) == true);
-    assert(value == 42);
-    assert(IntArray_get(&arr, &value, 4) == true);
-    assert(value == 100);
+    TEST_ASSERT_TRUE(IntArray_get(&arr, &value, 0));
+    TEST_ASSERT_EQUAL_INT(42, value);
+    TEST_ASSERT_TRUE(IntArray_get(&arr, &value, 4));
+    TEST_ASSERT_EQUAL_INT(100, value);
 
     // out of bounds
-    assert(IntArray_get(&arr, &value, 5) == false);
-    assert(IntArray_set(&arr, 999, 5) == false);
+    TEST_ASSERT_FALSE(IntArray_get(&arr, &value, 5));
+    TEST_ASSERT_FALSE(IntArray_set(&arr, 999, 5));
 
     IntArray_destroy(&arr);
-
-    (void)value;
 }
 
-static void test_copy_array(void) {
-    printf("Test: Copy\n");
-
+void test_copy_array(void) {
     IntArray arr = IntArray_create(5);
-    IntArray_set(&arr, 42, 0);
-    IntArray_set(&arr, 100, 4);
+    TEST_ASSERT_TRUE(IntArray_set(&arr, 42, 0));
+    TEST_ASSERT_TRUE(IntArray_set(&arr, 100, 4));
 
     IntArray copy = IntArray_copy(&arr);
-    assert(IntArray_length(&copy) == IntArray_length(&arr));
+    TEST_ASSERT_EQUAL_size_t(IntArray_length(&arr), IntArray_length(&copy));
 
     int value = 0;
-    assert(IntArray_get(&copy, &value, 0) == true);
-    assert(value == 42);
-    assert(IntArray_get(&copy, &value, 4) == true);
-    assert(value == 100);
+    TEST_ASSERT_TRUE(IntArray_get(&copy, &value, 0));
+    TEST_ASSERT_EQUAL_INT(42, value);
+    TEST_ASSERT_TRUE(IntArray_get(&copy, &value, 4));
+    TEST_ASSERT_EQUAL_INT(100, value);
 
     // modify original, copy should not be affected
-    assert(IntArray_set(&arr, 777, 0) == true);
-    assert(IntArray_get(&copy, &value, 0) == true);
-    assert(value == 42);
+    TEST_ASSERT_TRUE(IntArray_set(&arr, 777, 0));
+    TEST_ASSERT_TRUE(IntArray_get(&copy, &value, 0));
+    TEST_ASSERT_EQUAL_INT(42, value);
 
     IntArray_destroy(&arr);
     IntArray_destroy(&copy);
-
-    (void)value;
 }
 
-static void test_resize_array(void) {
-    printf("Test: Resize\n");
-
+void test_resize_array(void) {
     IntArray arr = IntArray_create(5);
-    assert(IntArray_set(&arr, 42, 0) == true);
-    assert(IntArray_set(&arr, 100, 4) == true);
+    TEST_ASSERT_TRUE(IntArray_set(&arr, 42, 0));
+    TEST_ASSERT_TRUE(IntArray_set(&arr, 100, 4));
 
     // shrink
-    assert(IntArray_resize(&arr, 3) == true);
-    assert(IntArray_length(&arr) == 3);
+    TEST_ASSERT_TRUE(IntArray_resize(&arr, 3));
+    TEST_ASSERT_EQUAL_size_t(3, IntArray_length(&arr));
 
     int value = -1;
-    assert(IntArray_get(&arr, &value, 0) == true);
-    assert(value == 42);
-    assert(IntArray_get(&arr, &value, 4) == false);
+    TEST_ASSERT_TRUE(IntArray_get(&arr, &value, 0));
+    TEST_ASSERT_EQUAL_INT(42, value);
+    TEST_ASSERT_FALSE(IntArray_get(&arr, &value, 4));
 
-    // grow (new slots should be zero-initialized if your impl guarantees that)
-    assert(IntArray_resize(&arr, 8) == true);
-    assert(IntArray_length(&arr) == 8);
+    // grow (new slots should be zero-initialized if your impl guarantees
+    // that)
+    TEST_ASSERT_TRUE(IntArray_resize(&arr, 8));
+    TEST_ASSERT_EQUAL_size_t(8, IntArray_length(&arr));
 
     value = 1234;
-    assert(IntArray_get(&arr, &value, 7) == true);
-    assert(value == 0);
+    TEST_ASSERT_TRUE(IntArray_get(&arr, &value, 7));
+    TEST_ASSERT_EQUAL_INT(0, value);
 
     IntArray_destroy(&arr);
-
-    (void)value;
 }
 
 int main(void) {
-    test_create_destroy();
-    test_get_set_elements();
-    test_copy_array();
-    test_resize_array();
-    return 0;
+    UNITY_BEGIN();
+    RUN_TEST(test_create_destroy);
+    RUN_TEST(test_get_set_elements);
+    RUN_TEST(test_copy_array);
+    RUN_TEST(test_resize_array);
+    return UNITY_END();
 }

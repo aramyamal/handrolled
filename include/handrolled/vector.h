@@ -1,7 +1,8 @@
 #ifndef HANDROLLED_VECTOR_H
 #define HANDROLLED_VECTOR_H
 
-#include "handrolled/array.h"
+#include "common.h"
+#include "array.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -33,44 +34,46 @@ VoidVector VoidVector_copy(const VoidVector *self);
         VoidVector _internal;                                                  \
     } name;                                                                    \
                                                                                \
-    static inline name name##_create(size_t capacity) {                        \
+    static inline HR_MAYBE_UNUSED name name##_create(size_t capacity) {        \
         return (name){._internal = VoidVector_create(capacity, sizeof(T))};    \
     }                                                                          \
                                                                                \
-    static inline void name##_destroy(name *self) {                            \
+    static inline HR_MAYBE_UNUSED void name##_destroy(name *self) {            \
         VoidVector_destroy(&self->_internal);                                  \
     }                                                                          \
                                                                                \
-    static inline size_t name##_length(const name *self) {                     \
+    static inline HR_MAYBE_UNUSED size_t name##_length(const name *self) {     \
         return VoidVector_length(&self->_internal);                            \
     }                                                                          \
                                                                                \
-    static inline size_t name##_capacity(const name *self) {                   \
+    static inline HR_MAYBE_UNUSED size_t name##_capacity(const name *self) {   \
         return VoidVector_capacity(&self->_internal);                          \
     }                                                                          \
                                                                                \
-    static inline bool name##_push(name *self, const T value) {                \
+    static inline HR_MAYBE_UNUSED bool name##_push(name *self,                 \
+                                                   const T value) {            \
         return VoidVector_push(&self->_internal, &value);                      \
     }                                                                          \
                                                                                \
-    static inline bool name##_get(const name *self, T *out_value,              \
-                                  size_t index) {                              \
+    static inline HR_MAYBE_UNUSED bool name##_get(                             \
+        const name *self, T *out_value, size_t index) {                        \
         return VoidVector_get(&self->_internal, out_value, index);             \
     }                                                                          \
                                                                                \
-    static inline bool name##_set(name *self, const T value, size_t index) {   \
+    static inline HR_MAYBE_UNUSED bool name##_set(name *self, const T value,   \
+                                                  size_t index) {              \
         return VoidVector_set(&self->_internal, &value, index);                \
     }                                                                          \
                                                                                \
-    static inline bool name##_pop(name *self, T *out_value) {                  \
+    static inline HR_MAYBE_UNUSED bool name##_pop(name *self, T *out_value) {  \
         return VoidVector_pop(&self->_internal, out_value);                    \
     }                                                                          \
                                                                                \
-    static inline void name##_clear(name *self) {                              \
+    static inline HR_MAYBE_UNUSED void name##_clear(name *self) {              \
         VoidVector_clear(&self->_internal);                                    \
     }                                                                          \
                                                                                \
-    static inline name name##_copy(const name *self) {                         \
+    static inline HR_MAYBE_UNUSED name name##_copy(const name *self) {         \
         return (name){._internal = VoidVector_copy(&self->_internal)};         \
     }
 

@@ -39,8 +39,13 @@ bool VoidVector_push(VoidVector *self, const void *value) {
         return false;
     }
     size_t length = self->length;
-    if (length >= self->array.length) {
-        size_t new_capacity = length * 2;
+    size_t capacity = self->array.length;
+    if (self->length >= capacity) {
+        size_t new_capacity = capacity * 2;
+
+        if (new_capacity / 2 != capacity) {
+            return false; // overflow
+        }
         if (!VoidArray_resize(&self->array, new_capacity)) {
             return false; // failed to resize
         }

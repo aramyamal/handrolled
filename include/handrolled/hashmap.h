@@ -8,7 +8,9 @@
 
 typedef struct {
     VoidArray buckets;
+    // capacity: buckets.length
     size_t count;
+    size_t element_size;
 } VoidHashMap;
 
 static inline size_t VoidHashMap_capacity(const VoidHashMap *self) {

@@ -17,7 +17,7 @@ static inline bool VoidVector_is_valid_index(const VoidVector *self,
 
 VoidVector VoidVector_create(size_t capacity, size_t element_size) {
     if (capacity == 0) {
-        return VoidVector_null();
+        capacity = 1; // clamp to 1
     }
     VoidArray array = VoidArray_create(capacity, element_size);
     if (!VoidArray_is_valid(&array)) {

@@ -16,7 +16,7 @@ void tearDown(void) {}
 void test_create_destroy(void) {
     IntVector vec = IntVector_create(0);
     TEST_ASSERT_EQUAL_size_t(0, IntVector_length(&vec));
-    TEST_ASSERT_EQUAL_size_t(0, IntVector_capacity(&vec));
+    TEST_ASSERT_GREATER_OR_EQUAL_size_t(1, IntVector_capacity(&vec));
     IntVector_destroy(&vec);
     TEST_ASSERT_NULL(vec._internal.array.data);
     TEST_ASSERT_EQUAL_size_t(0, vec._internal.length);

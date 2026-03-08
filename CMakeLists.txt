@@ -96,6 +96,7 @@ if(BUILD_EXAMPLES)
     set(EXAMPLES
         "examples/example_array.c"
         "examples/example_vector.c"
+        "examples/example_hashmap.c"
     )
     
      foreach(example_source ${EXAMPLES})

@@ -1,5 +1,6 @@
 #include "handrolled/hashmap.h"
 #include "unity.h"
+#include <stdio.h>
 
 DEFINE_HASHMAP(IntMap, int)
 

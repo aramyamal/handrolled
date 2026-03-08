@@ -1,11 +1,13 @@
 # handrolled
 
-Handrolled, type-safe and bounds-checked data structure implementations for C.
+Hand rolled, type-safe and bounds-checked data structure implementations for C. This is a hobby project for getting better understanding of data structures and C.
 
 ## Data Structures
 
 ### Array
+
 Fixed-size array with type safety:
+
 ```c
 #include "handrolled/array.h"
 #include <stdio.h>
@@ -32,7 +34,9 @@ int main(void) {
 ```
 
 ### Vector
+
 Dynamic array with automatic resizing:
+
 ```c
 #include "handrolled/vector.h"
 #include <stdio.h>
@@ -60,10 +64,54 @@ int main(void) {
 }
 ```
 
+### HashMap
+
+Simple hash table implementation with c-strings as keys.
+
+```c
+#include "handrolled/hashmap.h"
+#include <stdio.h>
+
+DEFINE_HASHMAP(IntMap, int)
+
+int main(void) {
+
+    IntMap ages = IntMap_create(4);
+
+    // insert values
+    IntMap_put(&ages, "Alice", (int){25});
+    IntMap_put(&ages, "Bob", (int){30});
+    IntMap_put(&ages, "Charlie", (int){28});
+
+    printf("Map contains %zu entries\n", IntMap_length(&ages));
+
+    // lookup values
+    int age = 0;
+    if (IntMap_get(&ages, "Bob", &age)) {
+        printf("Bob is %d years old\n", age);
+    }
+
+    if (IntMap_contains_key(&ages, "Alice")) {
+        printf("Alice exists in the map\n");
+    }
+
+    // remove a value
+    if (IntMap_remove(&ages, "Charlie", &age)) {
+        printf("Removed Charlie (age %d)\n", age);
+    }
+
+    printf("Map now contains %zu entries\n", IntMap_length(&ages));
+
+    IntMap_destroy(&ages);
+
+    return 0;
+}
+```
+
 ## API Reference
+
 See the header files in `include/handrolled/` for complete API documentation:
+
 - `include/handrolled/array.h` - Fixed-size arrays
 - `include/handrolled/vector.h` - Dynamic arrays
-
-## Status
-**Work in Progress**: This is a hobby project for getting better understanding of data structues and C. More will be added as I explore. Check `include/handrolled/` for the actual API since this README might not be up-to-date.
+- `include/handrolled/hashmap.h` - Simple hash table with c-strings as keys
